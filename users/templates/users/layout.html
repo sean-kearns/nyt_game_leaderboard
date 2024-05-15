@@ -1,4 +1,4 @@
-{% load static %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
 
+    {% load static %}
     <!-- With updated STATICFILE_DIRS, we can now reference static files like this. BE SURE TO python manage.py collectstatic -->
-    <link rel="icon" href="{% static '/img/favicon.ico' %}"> <!--got rid of style tag to see if it would load -->
+    <link rel="icon" href="{% static '/img/favicon.ico' %}" type="image/x-icon"> <!--got rid of style tag to see if it would load -->
 
     <style>
         .header {
@@ -99,7 +100,7 @@
 
     {% block body %}
     <!-- Content will go here -->
-    {% endblock %}
+    {% endblock body %}
 
 </body>
 </html>
