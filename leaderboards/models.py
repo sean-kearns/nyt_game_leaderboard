@@ -33,14 +33,13 @@ class ConnectionsScore(models.Model):
     🟦🟦🟦🟦
     """
     raw_score_details = models.TextField()
-
-    #game = models.ForeignKey(Game, on_delete = models.CASCADE)
     game = 'Test Game'
     player_name = models.CharField(max_length = 100)
     puzzle_number = models.IntegerField(null = True, blank = True)
     score_details = models.TextField()
     score_value = models.IntegerField(null = True, blank = True)
     date = models.DateTimeField(auto_now_add = True)
+    score_comment = models.CharField(max_length = 10, default = '', blank = True)
 
     def save(self, *args, **kwargs):
         self.score_details = self.parse_raw_score_details(self.raw_score_details)
@@ -116,7 +115,6 @@ class ConnectionsScore(models.Model):
             return 0
         else:
             return 1
-
     
     def __str__(self):
         return f"{self.player_name} - {self.puzzle_number} - Puzzle #{self.puzzle_number}"

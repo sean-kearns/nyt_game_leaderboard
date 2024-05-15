@@ -20,8 +20,14 @@
         {% for score in leaderboard_scores %}
             <tr>
                 <th scope="row" style="padding-right: 0rem">{{ forloop.counter }}</th>
-                <td style="max-width: 90px;"><div style="overflow: scroll; width: 100%">{{ score.player_name }}</div></td>
+                <td style="max-width: 90px;"><div style="overflow: scroll; width: 100%"><a href="{% url 'users:user_profile' username=score.player_name %}" style="color: #212529">{{ score.player_name }}</a></div>
+                    <div style="color: grey; font-style: italic;">{{score.score_comment}}</div>
+                </td>
+                {% if score.score_value == 100 %}
+                <td style="font-size: x-large;">💯</td>
+                {% else %}
                 <td>{{ score.score_value }}</td> 
+                {% endif %}
                 <td style="min-width: 120px; max-width: 140px;">{{ score.score_details | linebreaksbr }}</td>
                 <td>{{ score.puzzle_number }}</td>
                 <td>{{ score.date|date:"N j, Y P" }}</td>

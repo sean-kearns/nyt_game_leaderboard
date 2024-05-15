@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
+# from .forms import ConnectionsScoreForm, ConnectionsScoreCommentForm
 from .forms import ConnectionsScoreForm
 from .models import ConnectionsScore
 from users.models import Profile, User
@@ -18,14 +19,38 @@ def leaderboard_view(request):
 
 def submit_score(request):
     if request.method == "POST":
-        form =  ConnectionsScoreForm(request.POST, player_name = request.user.username)
+        form = ConnectionsScoreForm(request.POST, player_name=request.user.username)
+        #comment_form = ConnectionsScoreCommentForm(request.POST, player_name=request.user.username)
         if form.is_valid():
-            form.save()
-            return redirect('leaderboards:leaderboard') #Redirect to leaderboard page, which has the '' url
+            score_instance = form.save()
+            # if comment_form.is_valid():
+                # If comment form is valid, save the comment associated with the score
+                # comment_instance = comment_form.save(commit=False)
+                # comment_instance.score = score_instance
+                # comment_instance.save()
+            return redirect('leaderboards:leaderboard')  # Redirect to leaderboard page
+        else:
+            pass
+            # Form(s) are not valid, display errors for both forms
+            # print("Forms are not valid:", form.errors, comment_form.errors)
     else:
         form = ConnectionsScoreForm()
+        # comment_form = ConnectionsScoreCommentForm()
     
     return render(request, 'leaderboards/submit_score.html', {'form': form})
+    # render(request, 'leaderboards/submit_score.html', {'form': form, 'comment_form': comment_form})
+
+# #Get Score Comment - ACTUALLY JUST NEEDED TO BUILD THIS INTO SUBMIT_SCORE
+# def submit_score_comment(request):
+#     if request.method == "POST":
+#         form = ConnectionsScoreCommentForm(request.POST)
+
+#         if form.is_valid():
+#             return redirect('leaderboards: leaderboard')
+#     else:
+#         form = ConnectionsScoreCommentForm()
+    
+#     return render(request, 'leaderboards/submit_score.html', {'comment_form': form})
     
     
 # Create your views here.

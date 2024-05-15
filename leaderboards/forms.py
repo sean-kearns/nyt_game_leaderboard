@@ -9,13 +9,24 @@ class ConnectionsScoreForm(forms.ModelForm):
         self.player_name = player_name  # Store the username
         #TODO: Checking/verifying username?
 
-        initial_content = "Paste in Your Score!\nConnections\nPuzzle #\n🟪🟪🟪🟪\n🟦🟦🟦🟦\n🟨🟨🟨🟨\n🟩🟩🟩🟩"
-        self.fields['raw_score_details'].initial = initial_content
+        # initial_content = "Paste in Your Score!\nConnections\nPuzzle #\n🟪🟪🟪🟪\n🟦🟦🟦🟦\n🟨🟨🟨🟨\n🟩🟩🟩🟩"
+        # self.fields['raw_score_details'].initial = initial_content
         self.fields['raw_score_details'].widget.attrs.update({
             'class': 'form-control',
             'rows': 10,  # Adjust the number of rows as needed
             'cols': 8,
-            'style': 'color: grey;',  # Style for the initial content
+            # 'style': 'color: grey;',  # Style for the initial content
+            'placeholder': "Paste in Your Score!\nConnections\nPuzzle #\n🟪🟪🟪🟪\n🟦🟦🟦🟦\n🟨🟨🟨🟨\n🟩🟩🟩🟩"
+        })
+
+        # initial_content = "Submit a one word comment on today's puzzle!"
+        # self.fields['score_comment'].initial = initial_content
+        self.fields['score_comment'].widget.attrs.update({
+            'class': 'form-control',
+            'rows': 1,  # Adjust the number of rows as needed
+            'cols': 10,
+            # 'style': 'color: grey;',  # Style for the initial content
+            'placeholder': "Submit a one word commment on today's puzzle!"
         })
 
     def clean_raw_score_details(self):
@@ -50,8 +61,43 @@ class ConnectionsScoreForm(forms.ModelForm):
     class Meta:
         model = ConnectionsScore
         fields = [
-            'raw_score_details'
+            'raw_score_details',
+            'score_comment'
         ]
         widgets = {
-            'raw_score_details': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'cols': 8})
+            'raw_score_details': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'cols': 8}),
+            'score_comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 1, 'cols': 10, 'required': False})
         }
+
+# class ConnectionsScoreCommentForm(forms.Form):
+#     def __init__(self, *args, player_name=None, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.player_name = player_name  # Store the username
+#         #TODO: Checking/verifying username?
+
+#         initial_content = "Submit a one word comment on today's puzzle!"
+#         self.fields['score_comment'].initial = initial_content
+#         self.fields['score_comment'].widget.attrs.update({
+#             'class': 'form-control',
+#             'rows': 1,  # Adjust the number of rows as needed
+#             'cols': 10,
+#             'style': 'color: grey;',  # Style for the initial content
+#         })
+
+#     def save(self, commit=True):
+#         instance = super().save(commit=False)
+#         instance.player_name = self.player_name  # Set the CharField to the username
+#         if commit:
+#             instance.save()
+#             self.save_m2m()  # Necessary if your model form has many-to-many fields
+#         return instance
+    
+#     class Meta:
+#         model = ConnectionsScore
+#         fields = [
+#             'score_comment'
+#         ]
+#         widgets = {
+#             'score_comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 1, 'cols': 10})
+#         }
+#     score_comment = forms.CharField(label="Score Comment", max_length=10)

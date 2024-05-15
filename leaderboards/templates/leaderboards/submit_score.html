@@ -38,15 +38,14 @@
 {% block body %}
 <div class="container mt-3">
     <h2>Submit Your Score</h2>
-
     {% if form.errors %}
     <div id="formErrorsBox" class="errors-box">
         <span class="close-btn" onclick="document.getElementById('formErrorsBox').style.display='none';">&times;</span>
         <ul class="errors-list">
             {% for field, errors in form.errors.items %}
                 {% for error in errors %}
-                <!-- <li>{{ error }}<strong>Silly goose, be sure to paste in your score exactly!</strong></li> : ENABLE THIS IS YOU WANT USERS TO SEE ERROR NAMES-->
-                <li>Silly goose, be sure to <strong>paste in your score exactly!</strong></li>
+                <li>{{ error }}<strong>Silly goose, be sure to paste in your score exactly!</strong></li> : ENABLE THIS IS YOU WANT USERS TO SEE ERROR NAMES
+                <!-- <li>Silly goose, be sure to <strong>paste in your score exactly!</strong></li> -->
                 {% endfor %}
             {% endfor %}
         </ul>
@@ -54,7 +53,6 @@
     {% endif %}
 
     <form method="post">
-        <!-- TODO: Add in sample, greyed out text into submission box to show sample score. Eventually input handling-->
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">
@@ -66,8 +64,10 @@
         <button type="submit" class="btn btn-primary">Submit Score</button>
     </form>
 
+
+
     <!-- Script to add sample text -->
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var puzzleInput = document.getElementById('id_raw_score_details'); // Use the actual ID of your textarea.
             
@@ -85,8 +85,54 @@
                     this.style.color = 'grey';
                 }
             });
+
+            var commentInput = document.getElementById('id_score_comment');
+
+            commentInput.addEventListener('focus', function() {
+                var initialCommentContent = `Submit a one word comment on today's puzzle!`;
+                if (this.value === initialCommentContent) {
+                    this.value = ''; //Reset value when focused
+                    this.style.color = 'black';
+                }
+            });
+        
+            commentInput.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.value = initialCommentContent;
+                    this.style.color = 'grey';
+                }
+            });
+
+            // // Add event listener for comment form submission
+            // var commentForm = document.getElementById('commentForm');
+            // commentForm.addEventListener('submit', function(event) {
+            //     // Prevent default form submission
+            //     event.preventDefault();
+            //     // Perform AJAX request or handle form submission as needed
+            //     // Example: Submit the form using Fetch API
+            //     fetch(commentForm.action, {
+            //         method: commentForm.method,
+            //         body: new FormData(commentForm),
+            //         headers: {
+            //             'X-CSRFToken': '{{ csrf_token }}'
+            //         }
+            //     })
+            //     .then(response => {
+            //         // Handle response, e.g., show success message or handle errors
+            //         if (response.ok) {
+            //             console.log('Comment submitted successfully');
+            //             // Optionally, reset form fields
+            //             commentForm.reset();
+            //         } else {
+            //             console.error('Failed to submit comment');
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error('Error occurred during comment submission:', error);
+            //     });
+            // });
         });
-    </script>
+    </script> -->
 </div>
 {% endblock %}
 </body>
