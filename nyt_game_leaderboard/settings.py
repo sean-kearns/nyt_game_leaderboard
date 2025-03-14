@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os.path  
 import sys
+from dotenv import load_dotenv
+import dj_database_url
 
 PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
 
@@ -95,7 +97,8 @@ ALLOWED_HOSTS = ['*'] #TODO: CHANGE FOR SECURITY ON DEPLOY
 CSRF_TRUSTED_ORIGINS = ['https://localhost:8000']
 
 ##From Django-Google login tutorial 
-SITE_ID=2 #THIS FUCKING WORKED!?
+# SITE_ID=2 #THIS FUCKING WORKED!?
+SITE_ID=1
 
 #so hopefully the intermediary page doesnt show up 
 SOCIALACCOUNT_LOGIN_ON_GET=True
@@ -116,8 +119,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
 
     'rest_framework'
 ]
@@ -153,6 +156,7 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -183,12 +187,19 @@ WSGI_APPLICATION = 'nyt_game_leaderboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# import os
+# import dj_database_url
+
+load_dotenv()
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
+
 
 
 # Password validation
