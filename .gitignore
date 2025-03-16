@@ -17,3 +17,10 @@ __pycache__/
 
 # macOS specific
 .DS_Store
+.vercel
+
+
+# Static files collected by Django
+/staticfiles/
+/static/
+/nyt_game_leaderboard/static/
